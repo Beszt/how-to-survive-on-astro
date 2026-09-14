@@ -3,44 +3,66 @@
 > Podejście: **uproszczony symulator, nie turbo-rzeczywisty.**
 > Gwiazdozbiory = prawdziwe, obiekty = prawdziwe, ale całość uproszczona.
 > Na razie: **północna półkula** (niebo północne).
+>
+> **Niebo = główny i najważniejszy obiekt gry** — zawsze u góry; gracz chodzi po ziemi i rozgląda się w górę (Stellarium-lite, low poly, bez miliona gwiazd).
 
 ## Obecny prosty stan (Etap 0)
 
 **Zakres pierwszego prototypu — i tylko tyle:**
-- nieruchome gwiazdy jako białe punkty
+- nieruchome gwiazdy jako **białe, okrągłe punkty** (czysty biały `#ffffff`; rozmiar = jasność, minimalne różnice)
 - stały kolor nieba (bez dynamicznego Bortle’a)
 - jedna lokalizacja
-- swobodne chodzenie w 3D
+- swobodne chodzenie w 3D, **kamera pierwszoosobowa** (WASD + mysz) ✅
+- bez gwiazdozbiorów/linii/etykiet w samym Etapie 0 — ale **architektura na to gotowa** (zobacz niżej)
 
-### Opcje techniczne (do wyboru)
+### Specyfikacja gwiazd (ustalona)
 
-**Niebo (stały ciemny kolor):**
-- **Opcja A (najprostsza):** `WorldEnvironment` + `ProceduralSkyMaterial` z ciemnym kolorem (`sky_top_color`, `sky_horizon_color`, `ground_bottom_color`).
-- **Opcja B (więcej kontroli):** custom skydome (duża sfera) z spatial shaderem.
+- **Kształt:** okrągły punkt (idealny dysk) — mały, równy kółko, nie kwadrat.
+- **Kolor:** zawsze czysta biel `#ffffff`; jasność gwiazdy pokazuje **wyłącznie rozmiar**.
+- **Rozmiar:** minimalnie zróżnicowany — reprezentacja jasności (mag. wizualna V); im jaśniejsza gwiazda, tym większy punkt; zakres celowo mały (czytelność, low poly).
+- **Katalog:** mały, starannie wybrany zestaw najjaśniejszych gwiazd — **bez „pierdyliarda gwiazd"**. Każda gwiazda = dane: nazwa, kierunek na sferze niebieskiej, jasność.
+- **Dlaczego to ważne:** gwiazdy jako **dane/obiekty** (nie „szum na teksturze") — do każdej można potem przyczepić linię gwiazdozbioru, etykietę, marker obiektu.
 
-**Gwiazdy (białe punkty):**
-- **Opcja A (najprostsza):** `MultiMeshInstance3D` — 1000–3000 małych białych quadów/sfer rozłożonych na dużej sferze. Jeden draw call.
-- **Opcja B (przyszłościowo):** shader na skydome z proceduralnymi gwiazdami (hash) — łatwiej później dodać rotację i „świtanie" Bortle’a.
+### Opcje techniczne gwiazd (decyzja: ✅ Opcja A)
 
-**Rekomendacja:** dla Etapu 0 → **Opcja A** (szybko, natively w Godocie). Przejście na Opcję B przy dodawaniu ruchu nieba / Bortle’a.
+**Opcja A (wybrana): `MultiMeshInstance3D` — gwiazdy jako dane**
+- katalog gwiazd → transforamcje MultiMesha na sferze (jeden draw call)
+- mesh = mały quad + shader rysujący idealny dysk (odcina rogi); materiał unshaded, biały
+- rozmiar gwiazdy = skala jej transformacji (jasność → rozmiar)
+- ruch nieba (potem) = obrót całego nodu `Sky`
+
+**Opcja B (rezerwa): shader-skydome** — gwiazdy liczone per-piksel (hash).
+- mocna pod Bortle-fade / Drogę Mleczną, słabsza pod „gwiazdy jako obiekty z pozycją"
+- ewentualny powrót przy rozbudowie o Bortle, jeśli MultiMesh zacznie ograniczać
+
+**Niebo (stały ciemny kolor):** `WorldEnvironment` + `ProceduralSkyMaterial` z ciemnym kolorem (`sky_top_color`, `sky_horizon_color`) — bez zmian.
 
 > ⚠️ Promień sfery gwiazd musi być **mniejszy niż `far` kamera** (domyślnie 4000).
 
-### Drzewo sceny (Etap 0)
+### Drzewo sceny (Etap 0 + architektura pod rozbudowę)
 
 ```
 Prototype (Node3D)
 ├── WorldEnvironment     (Environment + ProceduralSkyMaterial, ciemny)
-├── Stars                (MultiMeshInstance3D, białe punkty)
 ├── Ground               (MeshInstance3D, płaska płaszczyzna, płaski kolor)
-└── Player               (CharacterBody3D)
-    ├── Camera3D
-    └── CollisionShape3D
+├── Player               (CharacterBody3D + Camera3D pierwszoosobowa + CollisionShape3D)
+└── Sky                  (Node3D — „sfera niebieska", główny obiekt gry)
+    ├── Stars            (MultiMeshInstance3D, białe dyski, rozmiar = jasność)     [Etap 0]
+    ├── Constellations   (gwiazdozbiór → Lines (Line3D) + Label (Label3D))         [potem]
+    └── Objects          (markery planet / jasnych mgławic)                        [potem]
 ```
 
-> Pierwszoosobowa kontrola (WASD + mysz) to najprostsza droga — trzecioosobowa to dodatkowy koszt. Decyzja: ⬜ do ustalenia.
+- **Animacja (ruch nieba, potem):** obrót `Sky` wokół osi bieguna niebieskiego — całe niebo się „przesuwa".
+- **Zoom (potem):** tween `Camera3D.fov` (np. 75° → 30°).
+- **Teksty/etykiety (potem):** `Label3D` na sferze.
 
 ## Planowane rozszerzenia (późniejsze etapy)
+
+### Gwiazdozbiory, etykiety, zoom (pierwsza rozbudowa nieba)
+- linie między gwiazdami gwiazdozbioru (`Line3D`) + nazwy (`Label3D`)
+- mały katalog obiektów (planety / jasne mgławice) jako czytelne markery
+- zoom na obiekt (FOV kamery), „szukanie" obiektu
+- architektura już na to gotowa — zobacz drzewo sceny wyżej
 
 ### Skala Bortle (zanieczyszczenie świetlne)
 - Parametr 1–9 (1 = najciemniejsze, 9 = miasto).
@@ -64,7 +86,8 @@ Prototype (Node3D)
 
 ## Otwarte pytania
 
-- [ ] Która opcja techniczna gwiazd (A czy B) na start?
-- [ ] Czy w Etapie 0 potrzebny Księżyc / Droga Mleczna? (tendencja: nie)
-- [ ] Jak uproszczony ma być „prawdziwy" katalog gwiazd (które gwiazdy wchodzą)?
+- [x] Opcja techniczna gwiazd → **A (MultiMesh)** ✅
+- [x] Kamera → **pierwszoosobowa** ✅
+- [x] Księżyc / Droga Mleczna w Etapie 0 → **nie** ✅
+- [ ] Dokładny rozmiar katalogu gwiazd na start (tendencja: najjaśniejsze, kilkadziesiąt)
 - [ ] Czy pokazywać biegun niebieski / oś rotacji (gdy wdrożymy ruch)?

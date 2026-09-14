@@ -1,4 +1,4 @@
-# Etagi / kroki milowe
+# Etapy / kroki milowe
 
 > Każdy Etap to **osobna, niezależna do rozwinięcia całość**. Pracujemy tylko nad bieżącym Etapem.
 > Status: ⬜ nie zaczęto · 🚧 w trakcie · ✅ gotowe
@@ -11,20 +11,22 @@
 
 **Zakres (wchodzi):**
 - [x] dokumentacja (ten plik, [sky-sim.md](sky-sim.md), [concept.md](concept.md))
-- [ ] scena 3D: podłoże, niebo, nieruchome gwiazdy (białe punkty)
+- [ ] scena 3D: podłoże, niebo, nieruchome gwiazdy (białe, okrągłe punkty; rozmiar = jasność)
 - [ ] stały kolor nieba (bez dynamicznego Bortle’a)
 - [ ] jedna lokalizacja
-- [ ] swobodne chodzenie w 3D (WASD + mysz)
-- [ ] **i tyle** — brak UI, HUD-u, mechanik
+- [ ] swobodne chodzenie w 3D, **kamera pierwszoosobowa** (WASD + mysz) ✅
+- [ ] architektura pod rozbudowę: warstwa `Sky`, gwiazdy jako dane (zobacz [sky-sim.md](sky-sim.md))
+- [ ] **i tyle** — brak UI, HUD-u, mechanik (menu/HUD można dodać w dowolnym momencie)
 
 **Plan sceny** (szczegóły w [sky-sim.md](sky-sim.md)):
 
 ```
 Prototype (Node3D)
 ├── WorldEnvironment     (ciemne niebo + ambient)
-├── Stars                (MultiMeshInstance3D, białe punkty)
 ├── Ground               (MeshInstance3D, płaska płaszczyzna)
-└── Player               (CharacterBody3D + Camera3D)
+├── Player               (CharacterBody3D + Camera3D, pierwszoosobowa)
+└── Sky                  (Node3D — „sfera niebieska", główny obiekt gry)
+    └── Stars            (MultiMeshInstance3D, białe dyski, rozmiar = jasność)
 ```
 
 **Poza zakresem (na razie):**
@@ -77,6 +79,8 @@ Prototype (Node3D)
 
 ## Później (pomyślnie, jeszcze bez etapu)
 
+- gwiazdozbiory: linie + nazwy na niebie (pierwsza rozbudowa nieba)
+- zoom na obiekty (FOV kamery)
 - ruch nieba (pozorny) w czasie
 - pory roku
 - więcej lokalizacji (silnik „miejscówek")

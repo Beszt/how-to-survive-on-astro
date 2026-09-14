@@ -1,6 +1,6 @@
 # How to Survive on Astro?!
 
-**A Starving Astrophotographer Simulator** — humorystyczny symulator początkującego astrofotografa, który postanawia utrzymywać się z fotografowania nocnego nieba.
+**A Starving Astrophotographer Simulator** (PL: *Jak zarobić na astro?! — Symulator głodującego astrofotografa*) — humorystyczny symulator początkującego astrofotografa, który postanawia utrzymywać się z fotografowania nocnego nieba.
 
 ## Status
 

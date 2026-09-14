@@ -31,7 +31,8 @@ Otwarty krajobraz. Różny zależnie od skali Bortle’a (zanieczyszczenie świe
 
 - sprawdzenie planu w praktyce
 - próba fotografowania nocnego nieba
-- niebo = „bardzo prosty symulator" — zobacz [sky-sim.md](sky-sim.md)
+- niebo = **główny i najważniejszy obiekt gry** (gracz na ziemi, rozgląda się w górę: szukanie obiektów, zoom) — zobacz [sky-sim.md](sky-sim.md)
+- **kamera pierwszoosobowa** (WASD + mysz) ✅
 
 ## Przejścia między scenami
 

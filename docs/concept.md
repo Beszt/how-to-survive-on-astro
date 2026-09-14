@@ -6,6 +6,17 @@
 
 How to Survive on Astro?! to humorystyczny symulator/manager o początkującym astrofotografie, który postanawia utrzymywać się z fotografowania nocnego nieba. Zaczyna jako gołodupiec z używanym teleskopem i samochodem na ostatnimdechu, a stopniowo — przez zlecenia, upgrady i ucieczki na ciemniejsze niebo — próbuje zamienić hobby w zawód.
 
+## Niebo = główny obiekt gry
+
+Nocne niebo to **główny i najważniejszy obiekt w grze** — zawsze u góry, na wyciągnięcie wzroku. Gracz chodzi po ziemi, rozstawia sprzęt, ma prosty krajobraz dookoła, ale „gwiazdą" jest niebo: po nim się rozgląda, szuka obiektów, zerka z zoomem, porównuje rozmiary. To nasz bardzo uproszczony, low poly odpowiednik Stellarium:
+
+- gwiazdy jako czytelne, białe punkty (rozmiar = jasność) — mały, wybrany katalog, bez miliona gwiazd
+- gwiazdozbiory rysowane liniami + nazwy
+- obiekty (planety, jasne mgławice) jako czytelne markery
+- niebo animowane (pozorny ruch) + zoom
+
+Szczegóły techniczne: [sky-sim.md](sky-sim.md).
+
 ## Ton i humor
 
 - **Suchy humor kontrastu**: romantyczna wizja astro (gwiezdne niebo, cisza, pasja) vs. rzeczywistość (mróz, rosa, pusta portfel, awarie sprzętu).
@@ -20,7 +31,7 @@ How to Survive on Astro?! to humorystyczny symulator/manager o początkującym a
 | EN (główny) | How to Survive on Astro?! — A Starving Astrophotographer Simulator |
 | PL (główny) | Jak zarobić na astro?! — Symulator głodującego astrofotografa |
 
-> ⚠️ Tytuł PL to robocza propozycja — do zatwierdzenia.
+> ✅ Tytuły zatwierdzone.
 
 ## Kierunek artystyczny (low poly)
 
@@ -40,6 +51,5 @@ Low poly to **świadomy wybór estetyczny**, nie ograniczenie techniczne:
 
 ## Otwarte pytania
 
-- [ ] Ostateczny tytuł PL?
 - [ ] Protagonista: imię, płeć, wiek? (wpływa na teksty)
 - [ ] Jak „surowa" jest ekonomia? (humor vs. realna presja)

@@ -35,6 +35,7 @@ Małe, osobne pliki (przjazne dla ADHD) — jeden temat na plik:
 | [docs/gameplay-loop.md](docs/gameplay-loop.md) | pętla dzień/noc, opis obu scen |
 | [docs/economy.md](docs/economy.md) | ekonomia, sprzęt, budżet (luźne pomysły) |
 | [docs/milestones.md](docs/milestones.md) | etapy 0–3+ i zakres każdego |
+| [docs/plans/etap-0.md](docs/plans/etap-0.md) | plan implementacji Etapu 0 (punkt startowy dla sesji dev) |
 | [docs/sky-sim.md](docs/sky-sim.md) | symulator nieba: stan obecny + plan rozbudowy |
 | [docs/backlog.md](docs/backlog.md) | luźne pomysły, easter eggi |
 
